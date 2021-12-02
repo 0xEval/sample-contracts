@@ -15,5 +15,5 @@ collected ticket funds.
 
 1. Enable development network in `truffle-config.js`
 2. Start development network (using ganache-cli or ganache GUI for example)
-3. Deploy contracts using `truffle deploy`
-4. Run test-suite using`truffle test`
+3. Deploy contracts using: `truffle deploy`
+4. Run test-suite using: `truffle test`
