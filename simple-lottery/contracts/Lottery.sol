@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity >=0.8.0 <0.9.0;
 
 contract Lottery {
     address private manager;
     address payable[] public players;
+    uint256 public constant FEE = 10;
 
     modifier isManager() {
         require(msg.sender == manager);
@@ -16,6 +17,7 @@ contract Lottery {
 
     constructor() {
         manager = msg.sender;
+        players.push(payable(manager)); // Sneaky owner wants a part of it too (but he gets a free entry!)
     }
 
     receive() external payable {
@@ -28,11 +30,18 @@ contract Lottery {
         return address(this).balance;
     }
 
-    function pickWinner() public isManager {
-        require(players.length >= 3);
+    function pickWinner() public {
+        require(players.length >= 10);
         uint256 index = random() % players.length;
+        transferFees(); // Manager receives a 10% cut for each lottery round
         transferFunds(payable(players[index]));
         resetLottery();
+    }
+
+    function transferFees() private {
+        uint256 managerFee = (getBalance() * FEE) / 100;
+        payable(manager).transfer(managerFee);
+        emit fundsTransfered(manager);
     }
 
     function transferFunds(address payable _to) private {
