@@ -1,4 +1,4 @@
-# Simple Decentralized Auction
+# Simple Decentralized Crowdfunding Campaign
 
 Decentralized version of Crowdfunding campaigns inspired by Kickstarter model.
 
